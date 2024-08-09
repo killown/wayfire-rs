@@ -9,7 +9,6 @@ description = "A Rust library for interacting with Wayfire."
 documentation = "https://docs.rs/rustfire"
 homepage = "https://github.com/yourusername/rustfire"
 repository = "https://github.com/yourusername/rustfire"
-license = "MIT"
 license-file = "LICENSE"
 
 [dependencies]
