@@ -283,10 +283,194 @@ impl WayfireSocket {
         self.send_json(&message).await
     }
 
-    pub async fn toggle_expo(&mut self) -> io::Result<Value> {
+    pub async fn expo_toggle(&mut self) -> io::Result<Value> {
         let message = MsgTemplate {
             method: "expo/toggle".to_string(),
             data: None,
+        };
+
+        self.send_json(&message).await
+    }
+
+    pub async fn scale_toggle(&mut self) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "scale/toggle".to_string(),
+            data: None,
+        };
+
+        self.send_json(&message).await
+    }
+    pub async fn scale_toggle_all(&mut self) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "expo/toggle_all".to_string(),
+            data: None,
+        };
+
+        self.send_json(&message).await
+    }
+
+    pub async fn cube_activate(&mut self) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "cube/activate".to_string(),
+            data: None,
+        };
+
+        self.send_json(&message).await
+    }
+
+    pub async fn cube_rotate_left(&mut self) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "cube/rotate_left".to_string(),
+            data: None,
+        };
+
+        self.send_json(&message).await
+    }
+
+    pub async fn cube_rotate_right(&mut self) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "cube/rotate_right".to_string(),
+            data: None,
+        };
+
+        self.send_json(&message).await
+    }
+
+    pub async fn toggle_showdesktop(&mut self) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "wm-actions/toggle_showdesktop".to_string(),
+            data: None,
+        };
+        self.send_json(&message).await
+    }
+
+    pub async fn set_view_sticky(&mut self, view_id: i64, state: bool) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "wm-actions/set-sticky".to_string(),
+            data: Some(serde_json::json!({
+                "view_id": view_id,
+                "state": state,
+            })),
+        };
+        self.send_json(&message).await
+    }
+
+    pub async fn send_view_to_back(&mut self, view_id: i64, state: bool) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "wm-actions/send-to-back".to_string(),
+            data: Some(serde_json::json!({
+                "view_id": view_id,
+                "state": state,
+            })),
+        };
+        self.send_json(&message).await
+    }
+
+    pub async fn set_view_minimized(&mut self, view_id: i64, state: bool) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "wm-actions/set-minimized".to_string(),
+            data: Some(serde_json::json!({
+                "view_id": view_id,
+                "state": state,
+            })),
+        };
+        self.send_json(&message).await
+    }
+
+    pub async fn configure_input_device(&mut self, id: i64, enabled: bool) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "input/configure-device".to_string(),
+            data: Some(serde_json::json!({
+                "id": id,
+                "enabled": enabled,
+            })),
+        };
+        self.send_json(&message).await
+    }
+
+    pub async fn close_view(&mut self, view_id: i64) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "window-rules/close-view".to_string(),
+            data: Some(serde_json::json!({
+                "id": view_id,
+            })),
+        };
+        self.send_json(&message).await
+    }
+
+    pub async fn wset_info(&mut self, id: i64) -> io::Result<serde_json::Value> {
+        let message = MsgTemplate {
+            method: "window-rules/wset-info".to_string(),
+            data: Some(serde_json::json!({
+                "id": id,
+            })),
+        };
+
+        self.send_json(&message).await
+    }
+
+    pub async fn watch(&mut self, events: Option<Vec<String>>) -> io::Result<serde_json::Value> {
+        let mut data = serde_json::json!({});
+        if let Some(events) = events {
+            data["events"] = serde_json::json!(events);
+        }
+
+        let message = MsgTemplate {
+            method: "window-rules/events/watch".to_string(),
+            data: Some(data),
+        };
+
+        self.send_json(&message).await
+    }
+
+    pub async fn configure_view(
+        &mut self,
+        view_id: i64,
+        x: i64,
+        y: i64,
+        w: i64,
+        h: i64,
+        output_id: Option<i64>,
+    ) -> io::Result<serde_json::Value> {
+        let mut data = serde_json::json!({
+            "id": view_id,
+            "geometry": {
+                "x": x,
+                "y": y,
+                "width": w,
+                "height": h
+            }
+        });
+
+        if let Some(output_id) = output_id {
+            data["output_id"] = serde_json::json!(output_id);
+        }
+
+        let message = MsgTemplate {
+            method: "window-rules/configure-view".to_string(),
+            data: Some(data),
+        };
+
+        self.send_json(&message).await
+    }
+
+    pub async fn assign_slot(&mut self, view_id: i64, slot: &str) -> io::Result<serde_json::Value> {
+        let message = MsgTemplate {
+            method: format!("grid/{}", slot),
+            data: Some(serde_json::json!({
+                "view_id": view_id
+            })),
+        };
+
+        self.send_json(&message).await
+    }
+
+    pub async fn set_focus(&mut self, view_id: i64) -> io::Result<serde_json::Value> {
+        let message = MsgTemplate {
+            method: "window-rules/focus-view".to_string(),
+            data: Some(serde_json::json!({
+                "id": view_id
+            })),
         };
 
         self.send_json(&message).await

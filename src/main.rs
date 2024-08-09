@@ -83,6 +83,100 @@ async fn main() -> Result<(), Box<dyn Error>> {
         println!("No views found.");
     }
 
+    // toggle expo twice
+    match socket.expo_toggle().await {
+        Ok(view_alpha) => print_json("toggle expo", view_alpha).await?,
+        Err(e) => eprintln!("Failed to toggle expo: {}", e),
+    }
+    match socket.expo_toggle().await {
+        Ok(view_alpha) => print_json("toggle expo", view_alpha).await?,
+        Err(e) => eprintln!("Failed to toggle expo: {}", e),
+    }
+
+    // toggle scale twice
+    match socket.scale_toggle().await {
+        Ok(view_alpha) => print_json("toggle scale", view_alpha).await?,
+        Err(e) => eprintln!("Failed to toggle expo: {}", e),
+    }
+    match socket.scale_toggle().await {
+        Ok(view_alpha) => print_json("toggle scale", view_alpha).await?,
+        Err(e) => eprintln!("Failed to toggle expo: {}", e),
+    }
+
+    match socket.cube_activate().await {
+        Ok(_) => println!("Cube activated successfully."),
+        Err(e) => eprintln!("Failed to activate cube: {}", e),
+    }
+
+    match socket.cube_rotate_left().await {
+        Ok(_) => println!("Cube rotated left successfully."),
+        Err(e) => eprintln!("Failed to rotate cube left: {}", e),
+    }
+
+    match socket.cube_rotate_right().await {
+        Ok(_) => println!("Cube rotated right successfully."),
+        Err(e) => eprintln!("Failed to rotate cube right: {}", e),
+    }
+
+    let focused_view = socket.get_focused_view().await?;
+    let view_id = focused_view.id;
+
+    match socket.toggle_showdesktop().await {
+        Ok(_) => println!("Toggled show desktop successfully."),
+        Err(e) => eprintln!("Failed to toggle show desktop: {}", e),
+    }
+
+    let state = true;
+
+    let focused_view_id = match socket.get_focused_view().await {
+        Ok(view) => view.id,
+        Err(e) => {
+            eprintln!("Failed to get focused view: {}", e);
+            return Err(e);
+        }
+    };
+
+    // Configure view
+    match socket
+        .configure_view(focused_view_id, 100, 100, 800, 600, Some(1))
+        .await
+    {
+        Ok(response) => print_json("configure_view", response).await?,
+        Err(e) => eprintln!("Failed to configure view: {}", e),
+    }
+
+    // Assign slot
+    match socket.assign_slot(focused_view_id, "top-left").await {
+        Ok(response) => print_json("assign_slot", response).await?,
+        Err(e) => eprintln!("Failed to assign slot: {}", e),
+    }
+
+    // Set focus
+    match socket.set_focus(focused_view_id).await {
+        Ok(response) => print_json("set_focus", response).await?,
+        Err(e) => eprintln!("Failed to set focus: {}", e),
+    }
+
+    match socket.set_view_sticky(view_id, state).await {
+        Ok(_) => println!("Set view sticky successfully."),
+        Err(e) => eprintln!("Failed to set view sticky: {}", e),
+    }
+
+    match socket.send_view_to_back(view_id, state).await {
+        Ok(_) => println!("Sent view to back successfully."),
+        Err(e) => eprintln!("Failed to send view to back: {}", e),
+    }
+
+    match socket.set_view_minimized(view_id, true).await {
+        Ok(_) => println!("Set view minimized successfully."),
+        Err(e) => eprintln!("Failed to set view minimized: {}", e),
+    }
+
+    match socket.set_view_minimized(view_id, false).await {
+        Ok(_) => println!("Set view minimized successfully."),
+        Err(e) => eprintln!("Failed to set view minimized: {}", e),
+    }
+
     // Get view alpha
     if let Some(view) = views.get(0) {
         let view_id = view.id;
