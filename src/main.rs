@@ -83,5 +83,28 @@ async fn main() -> io::Result<()> {
     let layout = socket.get_tiling_layout(1, 1, 2).await?;
     println!("Layout: {:?}", layout);
 
+    use crate::models::{Geometry, Layout}; // Adjust the path based on your project structure
+    let layout = Layout {
+        geometry: Geometry {
+            height: 1038,
+            width: 2560,
+            x: 2560,
+            y: 42,
+        },
+        percent: 1.0,
+        vertical_split: vec![], // An empty vector for no vertical splits
+    };
+
+    // Define the workspace and set layout parameters
+    let wset_index = 1; // Example workspace set index
+    let workspace_x = 0; // Example x coordinate
+    let workspace_y = 0; // Example y coordinate
+
+    let response = socket
+        .set_tiling_layout(wset_index, workspace_x, workspace_y, &layout)
+        .await?;
+
+    println!("Response: {:?}", response);
+
     Ok(())
 }

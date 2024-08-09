@@ -236,4 +236,26 @@ impl WayfireSocket {
 
         Ok(layout)
     }
+
+    pub async fn set_tiling_layout(
+        &mut self,
+        wset: i64,
+        x: i64,
+        y: i64,
+        layout: &Layout,
+    ) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "simple-tile/set-layout".to_string(),
+            data: Some(serde_json::json!({
+                "wset-index": wset,
+                "workspace": {
+                    "x": x,
+                    "y": y
+                },
+                "layout": layout
+            })),
+        };
+
+        self.send_json(&message).await
+    }
 }
