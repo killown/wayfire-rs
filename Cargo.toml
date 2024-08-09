@@ -1,15 +1,19 @@
 [package]
 name = "wayfire-rs"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Thiago <systemofdown@gmail.com>"]
 edition = "2021"
 
 # Metadata
 description = "A Rust library for interacting with Wayfire."
-documentation = "https://docs.rs/rustfire"
-homepage = "https://github.com/yourusername/rustfire"
-repository = "https://github.com/yourusername/rustfire"
+documentation = "https://docs.rs/wayfire-rs"
+homepage = "https://github.com/yourusername/wayfire-rs"
+repository = "https://github.com/yourusername/wayfire-rs"
 license-file = "LICENSE"
+
+[lib]
+name = "wayfire_rs"
+path = "src/lib.rs"
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
