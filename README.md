@@ -24,12 +24,12 @@ To include `wayfire-rs` in your Rust project, add it to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-wayfire-rs = "0.1.4"
+wayfire-rs = "0.1.8"
 ```
 
 ### Usage
 
-Basic usage in examples folder
+Basic usage in wayfire-rs/examples folder and lots of examples in wayfire-rs/src/main.rs
 
 ### API Methods
 
