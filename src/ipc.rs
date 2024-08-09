@@ -496,4 +496,41 @@ impl WayfireSocket {
 
         Ok(())
     }
+    pub async fn create_headless_output(&mut self, width: u32, height: u32) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "wayfire/create-headless-output".to_string(),
+            data: Some(serde_json::json!({
+                "width": width,
+                "height": height
+            })),
+        };
+
+        self.send_json(&message).await
+    }
+
+    pub async fn destroy_headless_output(
+        &mut self,
+        output_name: Option<String>,
+        output_id: Option<i64>,
+    ) -> io::Result<Value> {
+        let mut data = serde_json::json!({});
+
+        if let Some(name) = output_name {
+            data["output"] = serde_json::Value::String(name);
+        } else if let Some(id) = output_id {
+            data["output-id"] = serde_json::Value::Number(serde_json::Number::from(id));
+        } else {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "Either output_name or output_id must be provided",
+            ));
+        }
+
+        let message = MsgTemplate {
+            method: "wayfire/destroy-headless-output".to_string(),
+            data: Some(data),
+        };
+
+        self.send_json(&message).await
+    }
 }
