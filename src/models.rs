@@ -78,6 +78,11 @@ pub struct View {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct ViewAlpha {
+    pub alpha: f64,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Geometry {
     pub height: i64,
     pub width: i64,
@@ -127,4 +132,3 @@ pub struct WorkspaceSet {
     #[serde(rename = "workspace")]
     pub workspace: Workspace,
 }
-

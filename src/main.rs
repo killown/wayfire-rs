@@ -58,6 +58,16 @@ async fn main() -> io::Result<()> {
         println!("No views found.");
     }
 
+    if let Some(view) = views.get(0) {
+        let view_id = view.id;
+        match socket.get_view_alpha(view_id).await {
+            Ok(detailed_view) => print_json("get_view_alpha:", detailed_view).await?,
+            Err(e) => eprintln!("Failed to get view alpha: {}", e),
+        }
+    } else {
+        println!("No views found.");
+    }
+
     match socket.get_focused_view().await {
         Ok(view) => print_json("get_focused_view:", view).await?,
         Err(e) => eprintln!("Failed to get focused view: {}", e),

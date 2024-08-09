@@ -1,5 +1,6 @@
 use crate::models::{
-    InputDevice, MsgTemplate, OptionValueResponse, Output, View, WayfireConfiguration, WorkspaceSet,
+    InputDevice, MsgTemplate, OptionValueResponse, Output, View, ViewAlpha, WayfireConfiguration,
+    WorkspaceSet,
 };
 use serde_json::Value;
 use std::env;
@@ -188,5 +189,25 @@ impl WayfireSocket {
         let output: Output = serde_json::from_value(output_info.clone())?;
 
         Ok(output)
+    }
+
+    pub async fn get_view_alpha(&mut self, view_id: i64) -> io::Result<ViewAlpha> {
+        let message = MsgTemplate {
+            method: "wf/alpha/get-view-alpha".to_string(),
+            data: Some(serde_json::json!({
+                "view-id": view_id
+            })),
+        };
+
+        let response = self.send_json(&message).await?;
+
+        let view_alpha: ViewAlpha = serde_json::from_value(response).map_err(|e| {
+            io::Error::new(
+                io::ErrorKind::InvalidData,
+                format!("Failed to parse response: {}", e),
+            )
+        })?;
+
+        Ok(view_alpha)
     }
 }
