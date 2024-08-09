@@ -105,6 +105,12 @@ pub struct Size {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct TargetWorkspace {
+    pub workspace: Workspace,
+    pub workspace_set: Option<WorkspaceSet>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Output {
     pub geometry: Geometry,
     pub id: i64,
@@ -117,7 +123,7 @@ pub struct Output {
     pub wset_index: u128,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Workspace {
     #[serde(rename = "grid_height")]
     pub grid_height: i64,

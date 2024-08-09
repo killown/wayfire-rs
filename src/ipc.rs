@@ -1,6 +1,6 @@
 use crate::models::{
     InputDevice, Layout, MsgTemplate, OptionValueResponse, Output, View, ViewAlpha,
-    WayfireConfiguration, WorkspaceSet,
+    WayfireConfiguration, Workspace, WorkspaceSet,
 };
 use serde_json::Value;
 use std::env;
@@ -270,6 +270,7 @@ impl WayfireSocket {
 
         self.send_json(&message).await
     }
+
     pub async fn set_view_fullscreen(&mut self, view_id: i64, state: bool) -> io::Result<Value> {
         let message = MsgTemplate {
             method: "wm-actions/set-fullscreen".to_string(),
@@ -289,5 +290,26 @@ impl WayfireSocket {
         };
 
         self.send_json(&message).await
+    }
+
+    pub async fn set_workspace(
+        &mut self,
+        workspace: Workspace,
+        view_id: i64,
+        output_id: Option<i64>,
+    ) -> Result<(), Box<dyn Error>> {
+        let message = MsgTemplate {
+            method: "wm-actions/set-workspace".to_string(),
+            data: Some(serde_json::json!({
+                "workspace": workspace,
+                "view_id": view_id,
+                "output_id": output_id,
+            })),
+        };
+
+        // Send the message to the Wayfire socket (implementation details depend on your setup)
+        self.send_json(&message).await?;
+
+        Ok(())
     }
 }
