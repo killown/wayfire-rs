@@ -82,6 +82,14 @@ pub struct ViewAlpha {
     pub alpha: f64,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Layout {
+    pub geometry: Geometry,
+    pub percent: f64,
+    #[serde(rename = "vertical-split")]
+    pub vertical_split: Vec<Layout>,
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Geometry {
     pub height: i64,

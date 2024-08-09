@@ -80,5 +80,8 @@ async fn main() -> io::Result<()> {
         }
     }
 
+    let layout = socket.get_tiling_layout(1, 1, 2).await?;
+    println!("Layout: {:?}", layout);
+
     Ok(())
 }

@@ -1,6 +1,6 @@
 use crate::models::{
-    InputDevice, MsgTemplate, OptionValueResponse, Output, View, ViewAlpha, WayfireConfiguration,
-    WorkspaceSet,
+    InputDevice, Layout, MsgTemplate, OptionValueResponse, Output, View, ViewAlpha,
+    WayfireConfiguration, WorkspaceSet,
 };
 use serde_json::Value;
 use std::env;
@@ -209,5 +209,31 @@ impl WayfireSocket {
         })?;
 
         Ok(view_alpha)
+    }
+
+    pub async fn get_tiling_layout(&mut self, wset: i64, x: i64, y: i64) -> io::Result<Layout> {
+        let message = MsgTemplate {
+            method: "simple-tile/get-layout".to_string(),
+            data: Some(serde_json::json!({
+                "wset-index": wset,
+                "workspace": {
+                    "x": x,
+                    "y": y
+                }
+            })),
+        };
+
+        let response = self.send_json(&message).await?;
+
+        let layout_value = response.get("layout").ok_or_else(|| {
+            io::Error::new(
+                io::ErrorKind::InvalidData,
+                "Missing `layout` field in response",
+            )
+        })?;
+
+        let layout: Layout = serde_json::from_value(layout_value.clone())?;
+
+        Ok(layout)
     }
 }
