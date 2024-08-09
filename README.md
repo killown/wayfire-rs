@@ -20,7 +20,7 @@
 
 ### Installation
 
-To include `rustfire` in your Rust project, add it to your `Cargo.toml`:
+To include `wayfire-rs` in your Rust project, add it to your `Cargo.toml`:
 
 ```toml
 [dependencies]
@@ -42,7 +42,7 @@ API Methods
 
 Contributing
 
-If you want to contribute to the rustfire project, follow these steps:
+If you want to contribute to the wayfire-rs project, follow these steps:
 
     Fork the repository.
     Create a new branch for your feature or bug fix.
@@ -52,6 +52,6 @@ If you want to contribute to the rustfire project, follow these steps:
 License
 
 ```
-rustfire is licensed under the MIT License.
+wayfire-rs is licensed under the MIT License.
 
 ```
