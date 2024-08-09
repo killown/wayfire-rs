@@ -51,8 +51,7 @@ If you want to contribute to the rustfire project, follow these steps:
 
 License
 
-rustfire is licensed under the MIT License.
-
 ```
+rustfire is licensed under the MIT License.
 
 ```
