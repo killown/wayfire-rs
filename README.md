@@ -1,4 +1,4 @@
-# rustfire
+# Wayfire-rs
 
 `wayfire-rs` is a Rust library for interacting with Wayfire, a Wayland compositor. This project provides functionalities to communicate with Wayfire using IPC, manage views, outputs, and configurations, and more.
 
