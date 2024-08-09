@@ -24,8 +24,8 @@ To include `rustfire` in your Rust project, add it to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-rustfire = "0.1.0"  # Replace with the actual version
-
+wayfire-rs = "0.1.0"
+```
 
 API Methods
 
@@ -52,4 +52,7 @@ If you want to contribute to the rustfire project, follow these steps:
 License
 
 rustfire is licensed under the MIT License.
+
+```
+
 ```
