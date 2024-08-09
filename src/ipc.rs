@@ -211,6 +211,18 @@ impl WayfireSocket {
         Ok(view_alpha)
     }
 
+    pub async fn set_view_alpha(&mut self, view_id: i64, alpha: f64) -> io::Result<Value> {
+        let message = MsgTemplate {
+            method: "wf/alpha/set-view-alpha".to_string(),
+            data: Some(serde_json::json!({
+                "view-id": view_id,
+                "alpha": alpha
+            })),
+        };
+
+        self.send_json(&message).await
+    }
+
     pub async fn get_tiling_layout(&mut self, wset: i64, x: i64, y: i64) -> io::Result<Layout> {
         let message = MsgTemplate {
             method: "simple-tile/get-layout".to_string(),

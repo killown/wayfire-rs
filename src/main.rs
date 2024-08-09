@@ -1,4 +1,5 @@
 use serde_json::to_string_pretty;
+use std::error::Error;
 use std::io;
 
 mod ipc;
@@ -11,7 +12,7 @@ async fn print_json<T: serde::Serialize>(label: &str, data: T) -> io::Result<()>
 }
 
 #[tokio::main]
-async fn main() -> io::Result<()> {
+async fn main() -> Result<(), Box<dyn Error>> {
     let mut socket = ipc::WayfireSocket::connect().await?;
 
     let views = socket.list_views().await?;
@@ -58,52 +59,59 @@ async fn main() -> io::Result<()> {
         println!("No views found.");
     }
 
+    // get view alpha
     if let Some(view) = views.get(0) {
         let view_id = view.id;
         match socket.get_view_alpha(view_id).await {
-            Ok(detailed_view) => print_json("get_view_alpha:", detailed_view).await?,
+            Ok(alpha) => print_json("get_view_alpha:", alpha).await?,
             Err(e) => eprintln!("Failed to get view alpha: {}", e),
         }
     } else {
         println!("No views found.");
     }
 
+    // get focused view
     match socket.get_focused_view().await {
         Ok(view) => print_json("get_focused_view:", view).await?,
         Err(e) => eprintln!("Failed to get focused view: {}", e),
     }
 
+    // get focused output
     match socket.get_focused_output().await {
         Ok(output) => print_json("get_focused_output:", output).await?,
-        Err(e) => {
-            eprintln!("Failed to get focused output: {}", e);
-        }
+        Err(e) => eprintln!("Failed to get focused output: {}", e),
     }
 
-    let layout = socket.get_tiling_layout(1, 1, 2).await?;
-    println!("Layout: {:?}", layout);
-
-    use crate::models::{Geometry, Layout}; // Adjust the path based on your project structure
-    let layout = Layout {
-        geometry: Geometry {
+    // set tilling layout
+    let layout = models::Layout {
+        geometry: models::Geometry {
             height: 1038,
             width: 2560,
             x: 2560,
             y: 42,
         },
         percent: 1.0,
-        vertical_split: vec![], // An empty vector for no vertical splits
+        vertical_split: vec![],
     };
 
-    // Define the workspace and set layout parameters
-    let wset_index = 1; // Example workspace set index
-    let workspace_x = 0; // Example x coordinate
-    let workspace_y = 0; // Example y coordinate
+    let wset_index = 1;
+    let workspace_x = 0;
+    let workspace_y = 0;
 
     let response = socket
         .set_tiling_layout(wset_index, workspace_x, workspace_y, &layout)
         .await?;
 
+    println!("Response: {:?}", response);
+
+    // set view alpha
+    let focused_view = socket.get_focused_view().await?;
+    let view_id = focused_view.id;
+    let alpha = 0.5;
+    let response = socket.set_view_alpha(view_id, alpha).await?;
+    println!("Response: {:?}", response);
+    let alpha = 0.9;
+    let response = socket.set_view_alpha(view_id, alpha).await?;
     println!("Response: {:?}", response);
 
     Ok(())
