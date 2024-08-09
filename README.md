@@ -31,7 +31,7 @@ wayfire-rs = "0.1.4"
 
 Basic usage in examples folder
 
-API Methods
+### API Methods
 
     list_views: Retrieves a list of views.
     list_outputs: Retrieves a list of outputs.
@@ -44,7 +44,7 @@ API Methods
     get_focused_view: Retrieves information about the currently focused view.
     get_focused_output: Retrieves information about the currently focused output.
 
-Contributing
+### Contributing
 
 If you want to contribute to the wayfire-rs project, follow these steps:
 
@@ -53,7 +53,7 @@ If you want to contribute to the wayfire-rs project, follow these steps:
     Make your changes and test them.
     Submit a pull request with a detailed description of your changes.
 
-License
+### License
 
 ```
 wayfire-rs is licensed under the MIT License.
