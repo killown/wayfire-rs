@@ -479,23 +479,30 @@ impl WayfireSocket {
     pub async fn set_workspace(
         &mut self,
         workspace: Workspace,
-        view_id: i64,
+        view_id: Option<i64>,
         output_id: Option<i64>,
     ) -> Result<(), Box<dyn Error>> {
+        let x = workspace.x;
+        let y = workspace.y;
+
+        let focused_output = self.get_focused_output().await?;
+        let output_id = output_id.unwrap_or(focused_output.id);
+
         let message = MsgTemplate {
-            method: "wm-actions/set-workspace".to_string(),
+            method: "vswitch/set-workspace".to_string(),
             data: Some(serde_json::json!({
-                "workspace": workspace,
-                "view_id": view_id,
-                "output_id": output_id,
+                "x": x,
+                "y": y,
+                "output-id": output_id,
+                "view-id": view_id
             })),
         };
 
-        // Send the message to the Wayfire socket (implementation details depend on your setup)
-        self.send_json(&message).await?;
+        self.send_json(&message).await;
 
         Ok(())
     }
+
     pub async fn create_headless_output(&mut self, width: u32, height: u32) -> io::Result<Value> {
         let message = MsgTemplate {
             method: "wayfire/create-headless-output".to_string(),
