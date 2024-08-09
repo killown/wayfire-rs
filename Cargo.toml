@@ -7,8 +7,8 @@ edition = "2021"
 # Metadata
 description = "A Rust library for interacting with Wayfire."
 documentation = "https://docs.rs/wayfire-rs"
-homepage = "https://github.com/yourusername/wayfire-rs"
-repository = "https://github.com/yourusername/wayfire-rs"
+homepage = "https://github.com/killown/wayfire-rs"
+repository = "https://github.com/killown/wayfire-rs"
 license-file = "LICENSE"
 
 [lib]
