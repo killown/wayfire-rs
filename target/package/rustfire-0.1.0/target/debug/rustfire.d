@@ -1,0 +1,1 @@
+/home/neo/Git/rustfire/target/package/rustfire-0.1.0/target/debug/rustfire: /home/neo/Git/rustfire/target/package/rustfire-0.1.0/src/ipc.rs /home/neo/Git/rustfire/target/package/rustfire-0.1.0/src/main.rs /home/neo/Git/rustfire/target/package/rustfire-0.1.0/src/models.rs

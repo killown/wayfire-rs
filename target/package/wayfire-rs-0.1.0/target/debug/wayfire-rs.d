@@ -1,0 +1,1 @@
+/home/neo/Git/rustfire/target/package/wayfire-rs-0.1.0/target/debug/wayfire-rs: /home/neo/Git/rustfire/target/package/wayfire-rs-0.1.0/src/ipc.rs /home/neo/Git/rustfire/target/package/wayfire-rs-0.1.0/src/main.rs /home/neo/Git/rustfire/target/package/wayfire-rs-0.1.0/src/models.rs
