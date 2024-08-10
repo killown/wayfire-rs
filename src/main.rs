@@ -1,4 +1,4 @@
-use crate::models::Workspace; 
+use models::WSGeometry;
 use serde_json::to_string_pretty;
 use std::error::Error;
 use std::io;
@@ -57,26 +57,26 @@ async fn main() -> Result<(), Box<dyn Error>> {
     }
 
     if let Some(view) = views.get(0) {
-        let view_id = view.id;
-        match socket.get_view(view_id).await {
+        let view_id: Option<i64> = Some(view.id);
+        match socket.get_view(view.id).await {
             Ok(detailed_view) => print_json("get_view:", detailed_view).await?,
             Err(e) => eprintln!("Failed to get detailed view: {}", e),
         }
 
         // Set workspace for the first view
-        let target_workspace = Workspace {
+        let target_workspace = WSGeometry {
             x: 1,
             y: 1,
             grid_width: 4,
             grid_height: 4,
         }; // Adjust as needed
-        let output_id = None; // Replace with specific output ID if needed
+        let output_id: Option<i64> = Some(view.output_id);
 
         match socket
             .set_workspace(target_workspace, view_id, output_id)
             .await
         {
-            Ok(_) => println!("Successfully set workspace for view ID: {}", view_id),
+            Ok(_) => println!("Successfully set workspace"),
             Err(e) => eprintln!("Failed to set workspace: {}", e),
         }
     } else {

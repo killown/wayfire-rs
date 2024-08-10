@@ -1,6 +1,6 @@
 use crate::models::{
-    InputDevice, Layout, MsgTemplate, OptionValueResponse, Output, View, ViewAlpha,
-    WayfireConfiguration, Workspace, WorkspaceSet,
+    InputDevice, Layout, MsgTemplate, OptionValueResponse, Output, View, ViewAlpha, WSGeometry,
+    WayfireConfiguration, WorkspaceSet,
 };
 use serde_json::Value;
 use std::env;
@@ -478,12 +478,12 @@ impl WayfireSocket {
 
     pub async fn set_workspace(
         &mut self,
-        workspace: Workspace,
+        geometry: WSGeometry,
         view_id: Option<i64>,
         output_id: Option<i64>,
     ) -> Result<(), Box<dyn Error>> {
-        let x = workspace.x;
-        let y = workspace.y;
+        let x = geometry.x;
+        let y = geometry.y;
 
         let focused_output = self.get_focused_output().await?;
         let output_id = output_id.unwrap_or(focused_output.id);

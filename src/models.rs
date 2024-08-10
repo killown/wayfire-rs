@@ -99,6 +99,14 @@ pub struct Geometry {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct WSGeometry {
+    pub grid_width: i64,
+    pub grid_height: i64,
+    pub x: i64,
+    pub y: i64,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Size {
     pub height: i64,
     pub width: i64,
