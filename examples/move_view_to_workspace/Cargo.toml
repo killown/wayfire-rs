@@ -1,10 +1,10 @@
 [package]
-name = "hello-world"
+name = "move_view_to_workspace"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-wayfire-rs = "0.1.4"
+wayfire-rs = "0.2.1"
 tokio = { version = "1", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

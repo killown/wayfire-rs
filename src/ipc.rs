@@ -478,13 +478,11 @@ impl WayfireSocket {
 
     pub async fn set_workspace(
         &mut self,
-        geometry: WSGeometry,
+        x: i64,
+        y: i64,
         view_id: Option<i64>,
         output_id: Option<i64>,
     ) -> Result<(), Box<dyn Error>> {
-        let x = geometry.x;
-        let y = geometry.y;
-
         let focused_output = self.get_focused_output().await?;
         let output_id = output_id.unwrap_or(focused_output.id);
 

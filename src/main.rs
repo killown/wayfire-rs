@@ -63,19 +63,11 @@ async fn main() -> Result<(), Box<dyn Error>> {
             Err(e) => eprintln!("Failed to get detailed view: {}", e),
         }
 
-        // Set workspace for the first view
-        let target_workspace = WSGeometry {
-            x: 1,
-            y: 1,
-            grid_width: 4,
-            grid_height: 4,
-        }; // Adjust as needed
+        let x: i64 = view.geometry.x;
+        let y: i64 = view.geometry.y;
         let output_id: Option<i64> = Some(view.output_id);
 
-        match socket
-            .set_workspace(target_workspace, view_id, output_id)
-            .await
-        {
+        match socket.set_workspace(x, y, view_id, output_id).await {
             Ok(_) => println!("Successfully set workspace"),
             Err(e) => eprintln!("Failed to set workspace: {}", e),
         }
