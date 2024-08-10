@@ -11,10 +11,10 @@ async fn print_json<T: serde::Serialize>(label: &str, data: T) -> io::Result<()>
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    // Establish a mutable connection to the Wayfire IPC socket.
+    // Establish a connection to the Wayfire IPC socket.
     let mut socket = WayfireSocket::connect().await?;
 
-    // Toggle the expo effect twice and print the result.
+    // Toggle the expo effect twice 
     match socket.expo_toggle().await {
         Ok(view_alpha) => print_json("toggle expo", view_alpha).await?,
         Err(e) => eprintln!("Failed to toggle expo: {}", e),
@@ -24,7 +24,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         Err(e) => eprintln!("Failed to toggle expo: {}", e),
     }
 
-    // Toggle the scale effect twice and print the result.
+    // Toggle the scale effect twice
     match socket.scale_toggle().await {
         Ok(view_alpha) => print_json("toggle scale", view_alpha).await?,
         Err(e) => eprintln!("Failed to toggle scale: {}", e),
@@ -34,19 +34,19 @@ async fn main() -> Result<(), Box<dyn Error>> {
         Err(e) => eprintln!("Failed to toggle scale: {}", e),
     }
 
-    // Activate the cube effect and print a success message.
+    // Activate the cube effect
     match socket.cube_activate().await {
         Ok(_) => println!("Cube activated successfully."),
         Err(e) => eprintln!("Failed to activate cube: {}", e),
     }
 
-    // Rotate the cube to the left and print a success message.
+    // Rotate the cube to the left 
     match socket.cube_rotate_left().await {
         Ok(_) => println!("Cube rotated left successfully."),
         Err(e) => eprintln!("Failed to rotate cube left: {}", e),
     }
 
-    // Rotate the cube to the right and print a success message.
+    // Rotate the cube to the right 
     match socket.cube_rotate_right().await {
         Ok(_) => println!("Cube rotated right successfully."),
         Err(e) => eprintln!("Failed to rotate cube right: {}", e),
