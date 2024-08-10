@@ -1,5 +1,5 @@
 use crate::models::{
-    InputDevice, Layout, MsgTemplate, OptionValueResponse, Output, View, ViewAlpha, WSGeometry,
+    InputDevice, Layout, MsgTemplate, OptionValueResponse, Output, View, ViewAlpha,
     WayfireConfiguration, WorkspaceSet,
 };
 use serde_json::Value;
@@ -480,12 +480,9 @@ impl WayfireSocket {
         &mut self,
         x: i64,
         y: i64,
-        view_id: Option<i64>,
-        output_id: Option<i64>,
-    ) -> Result<(), Box<dyn Error>> {
-        let focused_output = self.get_focused_output().await?;
-        let output_id = output_id.unwrap_or(focused_output.id);
-
+        view_id: i64,
+        output_id: i64,
+    ) -> io::Result<Value> {
         let message = MsgTemplate {
             method: "vswitch/set-workspace".to_string(),
             data: Some(serde_json::json!({
@@ -496,9 +493,7 @@ impl WayfireSocket {
             })),
         };
 
-        self.send_json(&message).await;
-
-        Ok(())
+        self.send_json(&message).await
     }
 
     pub async fn create_headless_output(&mut self, width: u32, height: u32) -> io::Result<Value> {

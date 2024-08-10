@@ -1,4 +1,3 @@
-use models::WSGeometry;
 use serde_json::to_string_pretty;
 use std::error::Error;
 use std::io;
@@ -56,23 +55,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
         Err(e) => eprintln!("Failed to get output: {:?}", e),
     }
 
-    if let Some(view) = views.get(0) {
-        let view_id: Option<i64> = Some(view.id);
-        match socket.get_view(view.id).await {
-            Ok(detailed_view) => print_json("get_view:", detailed_view).await?,
-            Err(e) => eprintln!("Failed to get detailed view: {}", e),
-        }
+    let focused_view = socket.get_focused_view().await?;
+    let focused_output: i64 = focused_view.output_id;
+    let view_id: i64 = focused_view.id;
+    let output_id: i64 = focused_output;
 
-        let x: i64 = view.geometry.x;
-        let y: i64 = view.geometry.y;
-        let output_id: Option<i64> = Some(view.output_id);
-
-        match socket.set_workspace(x, y, view_id, output_id).await {
-            Ok(_) => println!("Successfully set workspace"),
-            Err(e) => eprintln!("Failed to set workspace: {}", e),
-        }
-    } else {
-        println!("No views found.");
+    match socket.set_workspace(1, 1, view_id, output_id).await {
+        Ok(_) => println!("Successfully set workspace"),
+        Err(e) => eprintln!("Failed to set workspace: {}", e),
     }
 
     // toggle expo twice
