@@ -516,10 +516,10 @@ impl WayfireSocket {
     pub async fn configure_view(
         &mut self,
         view_id: i64,
-        x: i64,
-        y: i64,
-        w: i64,
-        h: i64,
+        x: f64,
+        y: f64,
+        w: f64,
+        h: f64,
         output_id: Option<i64>,
     ) -> io::Result<serde_json::Value> {
         let mut data = serde_json::json!({
