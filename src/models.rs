@@ -98,10 +98,10 @@ pub struct Layout {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Geometry {
-    pub height: i64,
-    pub width: i64,
-    pub x: i64,
-    pub y: i64,
+    pub height: f64,
+    pub width: f64,
+    pub x: f64,
+    pub y: f64,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
